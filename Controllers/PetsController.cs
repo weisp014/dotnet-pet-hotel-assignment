@@ -29,7 +29,7 @@ namespace pet_hotel.Controllers
 
         // Post -- new pet
         [HttpPost]
-        public ActionResult Post(Pet pet)
+        public IActionResult Post(Pet pet)
         {
             _context.Add(pet);
             _context.SaveChanges();
@@ -67,7 +67,39 @@ namespace pet_hotel.Controllers
             _context.Update(pet);
             _context.SaveChanges();
 
-            return NoContent(); //204
+            return Ok(pet); //200
+        }
+
+        [HttpPut("{id}/checkin")]
+        public IActionResult checkIn(int id)
+        {
+            Pet pet = _context.Pets.SingleOrDefault(p => p.id == id);
+            // pet.checkInPet();
+            pet.checkedInAt = DateTime.Now;
+            if (pet is null)
+            {
+                return NotFound();
+            }
+            _context.Update(pet);
+            _context.SaveChanges();
+
+            return Ok(pet); //200
+        }
+
+            [HttpPut("{id}/checkout")]
+        public IActionResult checkOut(int id)
+        {
+            Pet pet = _context.Pets.SingleOrDefault(p => p.id == id);
+            // pet.checkInPet();
+            pet.checkedInAt = null;
+            if (pet is null)
+            {
+                return NotFound();
+            }
+            _context.Update(pet);
+            _context.SaveChanges();
+
+            return Ok(pet); //200
         }
 
          [HttpPatch("{id}")]
