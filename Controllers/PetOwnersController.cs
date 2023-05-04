@@ -32,5 +32,29 @@ namespace pet_hotel.Controllers
 
         return petOwner;
         }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, PetOwner petOwner) {
+            if (id != petOwner.id) {
+                return BadRequest();
+            }
+
+            _context.Update(petOwner);
+            _context.SaveChanges();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id) {
+            PetOwner petOwner = _context.PetOwners.SingleOrDefault(p => p.id == id);
+
+            if(petOwner is null) {
+                return NotFound();
+            }
+
+            _context.PetOwners.Remove(petOwner);
+            _context.SaveChanges();
+            return NoContent();
+        }
     }
 }
