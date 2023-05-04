@@ -24,6 +24,17 @@ namespace pet_hotel.Controllers
             return _context.PetOwners;
         }
 
+        [HttpGet("{id}")]
+        public ActionResult<PetOwner> Get(int id) {
+            PetOwner petOwner = _context.PetOwners.SingleOrDefault(p => p.id == id);
+
+            if (id != petOwner.id) {
+                return BadRequest();
+            }
+
+            return petOwner;
+        }
+
         [HttpPost]
         public PetOwner Post (PetOwner petOwner) {
 
